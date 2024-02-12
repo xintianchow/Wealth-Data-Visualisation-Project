@@ -2,7 +2,7 @@
 title: "DSA2101_Group_Project_Rmd"
 author: "Brandon Neo Bing Jie, Jiang Ruyang, Ng Elangel, Chow Xin Tian"
 date: "2023-03-24"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -82,11 +82,12 @@ descriptive_stat = income_distribution_clean %>%
   mutate(race = as.factor(race), income_bracket = as.factor(income_bracket)) %>%
   rename(Race = race)
 
-ggplot(descriptive_stat, aes(x=income_bracket, y=income_median, fill=Race)) +
+ggplot(descriptive_stat, aes(x = income_bracket, y = income_median, fill = Race)) +
   geom_boxplot() + 
   labs(x = "Income Bracket", y = "Income Median") + 
-  scale_y_continuous(labels = scales::label_number_si()) +
+  scale_y_continuous(labels = scales::label_number(scale = 1e6)) +
   guides(color = guide_legend(title = "Race"))
+
 ```
 
 The highest recorded value of the income median throughout history was $98174, which occurred in 2019 while the lowest recorded value of the income median throughout history was $29026 which occurred in 1967. 
@@ -119,14 +120,15 @@ For the bottom row, we can interpret the graphs as follows: A negative percentag
 #### Question 1 Plot 1 (Figure 1.1)
 ```{r}
 #Median Income of Different Races againt Time
-ggplot(descriptive_stat, aes(x=year, y=income_median, color=Race)) +
+ggplot(descriptive_stat, aes(x = year, y = income_median, color = Race)) +
   geom_line() +
   labs(x = "Year", y = "Median Income", 
-       title = "Median Income of Different Races againt Time") +
+       title = "Median Income of Different Races against Time") +
   scale_x_continuous(breaks = seq(min(descriptive_stat$year), max(descriptive_stat$year), 4)) +
-  scale_y_continuous(labels = scales::label_number_si()) + 
+  scale_y_continuous(labels = scales::label_number(scale = 1e6)) + 
   theme(plot.title = element_text(hjust = 0.5)) +
   guides(color = guide_legend(title = "Race"))
+
 ```
 
 ##### Black Inequality
@@ -251,16 +253,17 @@ We made use of a bar plot to illustrate this relationship because we are interes
 income_class = income_mean %>%
   filter(race == "All Races" & dollar_type == "2019 Dollars")
 
-ggplot(income_class, aes(x=year, y=income_dollars, color=income_quintile)) +
+ggplot(income_class, aes(x = year, y = income_dollars, color = income_quintile)) +
   geom_point() + 
   geom_line() + 
   labs(x = "Year", y = "Income Dollars" , 
        title = "Change in Income over the years with respect to each Income Bracket") +
   scale_x_continuous(breaks = seq(min(income_class$year), max(income_class$year), 4)) +
-  scale_y_continuous(labels = scales::label_number_si()) +
-  scale_color_discrete(limits=c("Top 5%", "Highest",  "Fourth", "Middle", "Second", "Lowest")) + 
+  scale_y_continuous(labels = scales::label_number(scale = 1e6)) +
+  scale_color_discrete(limits = c("Top 5%", "Highest", "Fourth", "Middle", "Second", "Lowest")) + 
   guides(color = guide_legend(title = "Income Bracket")) + 
   theme(plot.title = element_text(hjust = 0.5))
+
 ```
 
 #### Question 2 Plot 2 (Figure 2.2)
